@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content: blob:;">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover, user-scalable=no">
+    <title>Citizen Report</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-container">
+        
+        <!-- Global Toast Notification Banner -->
+        <div id="app-toast" class="toast"></div>
+
+        <!-- ================================================================
+             SCREEN 1: LOGIN SCREEN
+             ================================================================ -->
+        <div id="screen-login" class="screen active safe-top safe-bottom">
+            <div class="login-content">
+                <div class="login-brand">
+                    <div class="brand-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            <circle cx="12" cy="11" r="3"></circle>
+                        </svg>
+                    </div>
+                    <h1>Citizen Report</h1>
+                    <p>Report incidents. Keep your community informed.</p>
+                </div>
+
+                <div class="login-card">
+                    <form id="form-login">
+                        <div class="form-group">
+                            <label class="form-label" for="login-email">Email Address</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                                <input type="email" id="login-email" class="form-input" placeholder="name@example.com" value="adebayo@citizenreport.ng" required autocomplete="email">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="login-password">Password</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                                <input type="password" id="login-password" class="form-input" placeholder="Enter your password" value="password123" required autocomplete="current-password">
+                            </div>
+                        </div>
+
+                        <button type="submit" id="btn-login" class="btn btn-primary" style="margin-top: 6px;">
+                            Sign In
+                        </button>
+                    </form>
+
+                    <div class="login-divider">
+                        <span>OR</span>
+                    </div>
+
+                    <button type="button" id="btn-demo-login" class="btn btn-secondary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        Continue as Demo User
+                    </button>
+                </div>
+
+                <div class="login-footer-text">
+                    BinCom Academy — Mobile App Assessment
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================
+             SCREEN 2: APP SHELL (Home, Report, My Reports, Profile, Details)
+             ================================================================ -->
+        <div id="screen-app" class="screen safe-top">
+            
+            <!-- Global App Header -->
+            <header class="app-header">
+                <div class="header-left">
+                    <div class="header-logo">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <span class="header-title">Citizen Report</span>
+                </div>
+                <div class="header-right">
+                    <button type="button" id="btn-notifications" class="icon-btn" aria-label="Notifications">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span id="notif-badge" class="notification-badge">3</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- ============================================================
+                 VIEW: HOME / INCIDENTS FEED
+                 ============================================================ -->
+            <div id="view-home" class="view active">
+                <!-- Action Banner -->
+                <div class="home-banner">
+                    <div class="banner-text">
+                        <h2>Spotted an incident?</h2>
+                        <p>Notify emergency responders and alert neighbors.</p>
+                    </div>
+                    <button type="button" id="btn-quick-report" class="banner-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Report Now
+                    </button>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="filters-section">
+                    <div class="filters-label">
+                        <span>Filter by Category</span>
+                    </div>
+                    <div class="filters-scroll">
+                        <button type="button" class="filter-chip active" data-category="All">All Incidents</button>
+                        <button type="button" class="filter-chip" data-category="Accident">Accident</button>
+                        <button type="button" class="filter-chip" data-category="Fighting">Fighting</button>
+                        <button type="button" class="filter-chip" data-category="Rioting">Rioting</button>
+                        <button type="button" class="filter-chip" data-category="Fire">Fire</button>
+                        <button type="button" class="filter-chip" data-category="Other">Other</button>
+                    </div>
+                </div>
+
+                <!-- Incident List -->
+                <div class="feed-header">
+                    <h3>Recent Reports</h3>
+                    <span id="feed-count" class="feed-count">5 reported</span>
+                </div>
+                <div id="incidents-list" class="incidents-list">
+                    <!-- Populated dynamically via app.js -->
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 VIEW: REPORT INCIDENT FORM
+                 ============================================================ -->
+            <div id="view-report" class="view">
+                <div class="report-header-text">
+                    <h2>Report an Incident</h2>
+                    <p>Submit accurate details to alert emergency services and your community.</p>
+                </div>
+
+                <div class="report-card">
+                    <form id="form-report-incident">
+                        
+                        <!-- Title -->
+                        <div class="form-group">
+                            <label class="form-label" for="report-title">Incident Title *</label>
+                            <input type="text" id="report-title" class="form-input" style="padding-left: 14px;" placeholder="e.g. Tanker Breakdown / Street Clash" required>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="form-group">
+                            <label class="form-label" for="report-category">Category *</label>
+                            <select id="report-category" class="form-select" required>
+                                <option value="" disabled selected>Select category</option>
+                                <option value="Accident">Accident</option>
+                                <option value="Fighting">Fighting</option>
+                                <option value="Rioting">Rioting</option>
+                                <option value="Fire">Fire</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="form-group">
+                            <label class="form-label" for="report-desc">Description *</label>
+                            <textarea id="report-desc" class="form-textarea" placeholder="Describe what happened, casualties, hazards, or landmarks..." required></textarea>
+                        </div>
+
+                        <!-- Picture Selector -->
+                        <div class="form-group">
+                            <label class="form-label">Attach Photo (Optional)</label>
+                            <input type="file" id="report-image-input" accept="image/*" style="display: none;">
+                            
+                            <div id="photo-upload-box" class="photo-upload-box">
+                                <div id="photo-upload-prompt">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                                        <circle cx="12" cy="13" r="4"></circle>
+                                    </svg>
+                                    <span>Take or select a photo</span>
+                                    <small>JPG, PNG up to 10MB</small>
+                                </div>
+                                <div id="photo-preview-container" class="preview-container">
+                                    <img id="photo-preview-img" src="" alt="Incident Preview">
+                                    <button type="button" id="btn-remove-photo" class="btn-remove-photo" aria-label="Remove photo">✕</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Location & Coordinates Section -->
+                        <div class="location-group-box">
+                            <div class="location-group-header">
+                                <span>Location Details</span>
+                                <button type="button" id="btn-get-location" class="btn btn-outline btn-sm">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polygon points="12 2 15 8 21 9 17 14 18 20 12 17 6 20 7 14 3 9 9 8 12 2"></polygon>
+                                    </svg>
+                                    Get My Location
+                                </button>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 10px;">
+                                <label class="form-label" for="report-location">Location Name / Area *</label>
+                                <input type="text" id="report-location" class="form-input" style="padding-left: 14px;" placeholder="e.g. Ring Road, Ibadan" required>
+                            </div>
+
+                            <div class="coords-row">
+                                <div>
+                                    <label class="form-label" for="report-lat">Latitude</label>
+                                    <input type="text" id="report-lat" class="form-input" style="padding-left: 14px;" placeholder="7.3775">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="report-lng">Longitude</label>
+                                    <input type="text" id="report-lng" class="form-input" style="padding-left: 14px;" placeholder="3.9470">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit button -->
+                        <button type="submit" id="btn-submit-report" class="btn btn-primary">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                            Submit Incident
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 VIEW: MY REPORTS SCREEN
+                 ============================================================ -->
+            <div id="view-my-reports" class="view">
+                <div class="my-reports-stat-card">
+                    <div class="my-reports-stat-info">
+                        <h3 id="my-reports-total-count">2</h3>
+                        <p>Total reports submitted by you</p>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="switchView('report')">
+                        + New Report
+                    </button>
+                </div>
+
+                <div class="feed-header">
+                    <h3>Your Incident Submissions</h3>
+                </div>
+
+                <div id="my-reports-list">
+                    <!-- Populated dynamically via app.js -->
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 VIEW: PROFILE SCREEN
+                 ============================================================ -->
+            <div id="view-profile" class="view">
+                <div class="profile-card">
+                    <div id="profile-avatar" class="profile-avatar">AO</div>
+                    <h3 id="profile-name" class="profile-name">Adebayo Olawale</h3>
+                    <p id="profile-email" class="profile-email">adebayo@citizenreport.ng</p>
+                    <span class="profile-role-badge">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Verified Citizen Reporter
+                    </span>
+                </div>
+
+                <div class="profile-stats-row">
+                    <div class="profile-stat-box">
+                        <h4 id="profile-total-reports">2</h4>
+                        <p>Incidents Reported</p>
+                    </div>
+                    <div class="profile-stat-box">
+                        <h4>100%</h4>
+                        <p>Verified Accuracy</p>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-row">
+                        <span class="info-label">Application</span>
+                        <span class="info-value">Citizen Report</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Assessment</span>
+                        <span class="info-value">BinCom Mobile Track</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Version</span>
+                        <span class="info-value">v1.0.0 (UI Phase)</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Storage Mode</span>
+                        <span class="info-value">Local Offline Mock</span>
+                    </div>
+                </div>
+
+                <button type="button" id="btn-logout" class="btn btn-logout">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    Log Out
+                </button>
+            </div>
+
+            <!-- ============================================================
+                 VIEW: INCIDENT DETAILS SCREEN
+                 ============================================================ -->
+            <div id="view-details" class="view" style="padding: 0; padding-bottom: calc(var(--bottom-nav-height) + 20px);">
+                <div class="details-nav">
+                    <button type="button" id="btn-back-details" class="btn-back">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        Back to List
+                    </button>
+                    <span id="detail-status" class="badge badge-status-verified">Verified</span>
+                </div>
+
+                <div class="details-hero">
+                    <img id="detail-hero-img" class="details-hero-img" src="" alt="Incident banner">
+                </div>
+
+                <div class="details-body">
+                    <div class="details-header-meta">
+                        <span id="detail-category" class="badge badge-accident">Accident</span>
+                    </div>
+
+                    <h2 id="detail-title" class="details-title">Incident Title</h2>
+
+                    <div class="details-meta-card">
+                        <div class="meta-item">
+                            <span class="meta-label">Date & Time</span>
+                            <span id="detail-datetime" class="meta-val">Today, 10:45 AM</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Reported By</span>
+                            <span id="detail-reporter" class="meta-val">Citizen Reporter</span>
+                        </div>
+                        <div class="meta-item full-width">
+                            <span class="meta-label">Location</span>
+                            <span id="detail-location" class="meta-val">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                Ring Road, Ibadan
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="details-section-title">GPS Coordinates</div>
+                    <div class="details-coords-box" style="margin-bottom: 18px;">
+                        <div>
+                            <span>LAT: </span><strong id="detail-latitude">7.3592</strong>
+                        </div>
+                        <div>
+                            <span>LNG: </span><strong id="detail-longitude">3.8741</strong>
+                        </div>
+                    </div>
+
+                    <div class="details-section-title">Description</div>
+                    <div id="detail-description" class="details-desc-box">
+                        Detailed incident information will appear here.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 BOTTOM NAVIGATION BAR
+                 ============================================================ -->
+            <nav class="bottom-nav safe-bottom">
+                <button type="button" class="nav-item active" data-view="home">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span>Home</span>
+                </button>
+
+                <button type="button" class="nav-item" data-view="report">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="16"></line>
+                        <line x1="8" y1="12" x2="16" y2="12"></line>
+                    </svg>
+                    <span>Report</span>
+                </button>
+
+                <button type="button" class="nav-item" data-view="my-reports">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                    </svg>
+                    <span>My Reports</span>
+                </button>
+
+                <button type="button" class="nav-item" data-view="profile">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>Profile</span>
+                </button>
+            </nav>
+
+        </div>
+
+        <!-- ================================================================
+             NOTIFICATION BOTTOM SHEET / MODAL
+             ================================================================ -->
+        <div id="notifications-modal" class="modal-overlay">
+            <div class="modal-content safe-bottom">
+                <div class="modal-header">
+                    <span class="modal-title">Live Incident Alerts</span>
+                    <button type="button" id="btn-close-modal" class="icon-btn" style="width: 32px; height: 32px;" aria-label="Close modal">✕</button>
+                </div>
+                <div id="notification-list" class="notification-list">
+                    <!-- Populated dynamically via app.js -->
+                </div>
+                <button type="button" id="btn-clear-notifications" class="btn btn-secondary btn-sm" style="width: 100%;">
+                    Mark all as read
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Cordova and App Scripts -->
+    <script src="cordova.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
