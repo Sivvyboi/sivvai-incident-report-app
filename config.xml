@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.sivvai.citizenreport" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.sivvai.citizenreport" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>Citizen Report</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -8,6 +8,20 @@
         Apache Cordova Team
     </author>
     <content src="index.html" />
+    <access origin="*" />
+    <allow-navigation href="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="SplashScreenDelay" value="2000" />
+    <preference name="FadeSplashScreen" value="false" />
+    <platform name="android">
+        <preference name="GradlePluginGoogleServicesEnabled" value="true" />
+        <preference name="GradlePluginGoogleServicesVersion" value="4.5.0" />
+        <resource-file src="google-services.json" target="app/google-services.json" />
+        <preference name="android-usesCleartextTraffic" value="true" />
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        </config-file>
+    </platform>
 </widget>

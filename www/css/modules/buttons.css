@@ -1,0 +1,75 @@
+/* ==========================================================================
+   Button Styles
+   ========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 20px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: transform var(--transition-fast), background-color var(--transition-fast), opacity var(--transition-fast);
+  text-decoration: none;
+  user-select: none;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--primary-gradient);
+  color: var(--text-inverse);
+  box-shadow: 0 4px 12px rgba(13, 122, 87, 0.25);
+  width: 100%;
+}
+
+.btn-primary:active {
+  opacity: 0.9;
+}
+
+.btn-secondary {
+  background-color: var(--bg-subtle);
+  color: var(--secondary);
+  border: 1.5px solid var(--border-color);
+  width: 100%;
+}
+
+.btn-secondary:active {
+  background-color: var(--bg-active);
+}
+
+.btn-danger {
+  background-color: var(--accent-alert);
+  color: white;
+}
+
+.btn-sm {
+  height: 36px;
+  padding: 0 14px;
+  font-size: 13px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity var(--transition-fast);
+}
+
+.btn-link:hover {
+  opacity: 0.75;
+}

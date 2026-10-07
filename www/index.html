@@ -1,19 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content: blob:;">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' data: blob: https://*.gstatic.com https://*.googleapis.com https://*.google.com https://*.firebaseapp.com https://lh3.googleusercontent.com 'unsafe-eval'; script-src 'self' https://*.gstatic.com https://*.googleapis.com https://*.google.com https://*.firebaseapp.com 'unsafe-inline'; connect-src * http: https: ws: wss:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; media-src *; img-src * data: content: blob:;">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover, user-scalable=no">
     <title>Citizen Report</title>
     <link rel="stylesheet" href="css/style.css">
+    <!-- Local Offline-Ready Firebase Authentication SDKs -->
+    <script src="js/lib/firebase-app-compat.js"></script>
+    <script src="js/lib/firebase-auth-compat.js"></script>
 </head>
+
 <body>
     <div id="app-container">
-        
+
         <!-- Global Toast Notification Banner -->
         <div id="app-toast" class="toast"></div>
+
+        <!-- Offline / Network Status Banner -->
+        <div id="app-network-banner" class="network-banner">
+            <svg class="network-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+                <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
+                <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
+                <path d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
+                <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"></path>
+                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                <line x1="12" y1="20" x2="12.01" y2="20"></line>
+            </svg>
+            <span id="network-banner-text">No internet connection. Offline mode.</span>
+        </div>
+
+        <!-- Global Top Loading Progress Bar -->
+        <div id="app-loading-bar" class="app-loading-bar"></div>
+
+        <!-- Global Interactive Loading Overlay Modal -->
+        <div id="app-loading-overlay" class="loading-overlay">
+            <div class="loading-modal-box">
+                <div class="loading-spinner-ring"></div>
+                <div id="loading-status-text" class="loading-status-text">Loading...</div>
+            </div>
+        </div>
 
         <!-- ================================================================
              SCREEN 1: LOGIN SCREEN
@@ -22,7 +53,8 @@
             <div class="login-content">
                 <div class="login-brand">
                     <div class="brand-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                             <circle cx="12" cy="11" r="3"></circle>
                         </svg>
@@ -36,22 +68,39 @@
                         <div class="form-group">
                             <label class="form-label" for="login-email">Email Address</label>
                             <div class="input-wrapper">
-                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                    </path>
                                     <polyline points="22,6 12,13 2,6"></polyline>
                                 </svg>
-                                <input type="email" id="login-email" class="form-input" placeholder="name@example.com" value="adebayo@citizenreport.ng" required autocomplete="email">
+                                <input type="text" id="login-email" class="form-input" placeholder="Username or Email"
+                                    value="" required autocomplete="username">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label" for="login-password">Password</label>
-                            <div class="input-wrapper">
-                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <div class="input-wrapper has-toggle">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
                                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                                     <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                                 </svg>
-                                <input type="password" id="login-password" class="form-input" placeholder="Enter your password" value="password123" required autocomplete="current-password">
+                                <input type="password" id="login-password" class="form-input"
+                                    placeholder="Enter your password" value="" required
+                                    autocomplete="current-password">
+                                <button type="button" class="btn-toggle-password" data-target="login-password" aria-label="Toggle password visibility" tabindex="-1">
+                                    <svg class="eye-icon eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    <svg class="eye-icon eye-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                                    </svg>
+                                </button>
                             </div>
                         </div>
 
@@ -61,20 +110,136 @@
                     </form>
 
                     <div class="login-divider">
-                        <span>OR</span>
+                        <span>OR CONTINUE WITH</span>
                     </div>
 
-                    <button type="button" id="btn-demo-login" class="btn btn-secondary">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
+                    <button type="button" id="btn-google-auth-login" class="btn btn-google btn-google-auth">
+                        <svg class="google-icon" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
                         </svg>
-                        Continue as Demo User
+                        <span>Sign in with Google</span>
                     </button>
+
+
+                    <div class="login-register-link">
+                        <span>New to Citizen Report?</span>
+                        <button type="button" id="btn-show-register" class="btn-link">Create Account</button>
+                    </div>
                 </div>
 
                 <div class="login-footer-text">
-                    BinCom Academy — Mobile App Assessment
+                    SivvAI — Citizen Report Platform
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================
+             SCREEN 3: REGISTER SCREEN
+             ================================================================ -->
+        <div id="screen-register" class="screen safe-top safe-bottom">
+            <div class="login-content">
+                <div class="login-brand">
+                    <div class="brand-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <line x1="19" y1="8" x2="19" y2="14"></line>
+                            <line x1="22" y1="11" x2="16" y2="11"></line>
+                        </svg>
+                    </div>
+                    <h1>Create Account</h1>
+                    <p>Join the Citizen Report community.</p>
+                </div>
+
+                <div class="login-card">
+                    <form id="form-register">
+                        <div class="form-group">
+                            <label class="form-label" for="reg-email">Email Address *</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                                <input type="email" id="reg-email" class="form-input" placeholder="your@email.com"
+                                    required autocomplete="email">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="reg-password">Password *</label>
+                            <div class="input-wrapper has-toggle">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                                <input type="password" id="reg-password" class="form-input"
+                                    placeholder="Minimum 6 characters" required autocomplete="new-password">
+                                <button type="button" class="btn-toggle-password" data-target="reg-password" aria-label="Toggle password visibility" tabindex="-1">
+                                    <svg class="eye-icon eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    <svg class="eye-icon eye-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="reg-confirm-password">Confirm Password *</label>
+                            <div class="input-wrapper has-toggle">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                                <input type="password" id="reg-confirm-password" class="form-input"
+                                    placeholder="Re-enter your password" required autocomplete="new-password">
+                                <button type="button" class="btn-toggle-password" data-target="reg-confirm-password" aria-label="Toggle password visibility" tabindex="-1">
+                                    <svg class="eye-icon eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    <svg class="eye-icon eye-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="btn-register" class="btn btn-primary" style="margin-top: 6px;">
+                            Create My Account
+                        </button>
+                    </form>
+
+                    <div class="login-divider">
+                        <span>OR CONTINUE WITH</span>
+                    </div>
+
+                    <button type="button" id="btn-google-auth-reg" class="btn btn-google btn-google-auth">
+                        <svg class="google-icon" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                        </svg>
+                        <span>Continue with Google</span>
+                    </button>
+
+                    <div class="login-register-link" style="margin-top: 16px;">
+                        <span>Already have an account?</span>
+                        <button type="button" id="btn-register-to-login" class="btn-link">Sign In</button>
+                    </div>
+                </div>
+
+                <div class="login-footer-text">
+                    SivvAI — Citizen Report Platform
                 </div>
             </div>
         </div>
@@ -83,7 +248,7 @@
              SCREEN 2: APP SHELL (Home, Report, My Reports, Profile, Details)
              ================================================================ -->
         <div id="screen-app" class="screen safe-top">
-            
+
             <!-- Global App Header -->
             <header class="app-header">
                 <div class="header-left">
@@ -96,7 +261,8 @@
                 </div>
                 <div class="header-right">
                     <button type="button" id="btn-notifications" class="icon-btn" aria-label="Notifications">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                         </svg>
@@ -116,7 +282,8 @@
                         <p>Notify emergency responders and alert neighbors.</p>
                     </div>
                     <button type="button" id="btn-quick-report" class="banner-btn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
                             <line x1="12" y1="5" x2="12" y2="19"></line>
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                         </svg>
@@ -160,11 +327,12 @@
 
                 <div class="report-card">
                     <form id="form-report-incident">
-                        
+
                         <!-- Title -->
                         <div class="form-group">
                             <label class="form-label" for="report-title">Incident Title *</label>
-                            <input type="text" id="report-title" class="form-input" style="padding-left: 14px;" placeholder="e.g. Tanker Breakdown / Street Clash" required>
+                            <input type="text" id="report-title" class="form-input" style="padding-left: 14px;"
+                                placeholder="e.g. Tanker Breakdown / Street Clash" required>
                         </div>
 
                         <!-- Category -->
@@ -183,18 +351,22 @@
                         <!-- Description -->
                         <div class="form-group">
                             <label class="form-label" for="report-desc">Description *</label>
-                            <textarea id="report-desc" class="form-textarea" placeholder="Describe what happened, casualties, hazards, or landmarks..." required></textarea>
+                            <textarea id="report-desc" class="form-textarea"
+                                placeholder="Describe what happened, casualties, hazards, or landmarks..."
+                                required></textarea>
                         </div>
 
                         <!-- Picture Selector -->
                         <div class="form-group">
                             <label class="form-label">Attach Photo (Optional)</label>
                             <input type="file" id="report-image-input" accept="image/*" style="display: none;">
-                            
+
                             <div id="photo-upload-box" class="photo-upload-box">
                                 <div id="photo-upload-prompt">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                                        <path
+                                            d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
+                                        </path>
                                         <circle cx="12" cy="13" r="4"></circle>
                                     </svg>
                                     <span>Take or select a photo</span>
@@ -202,7 +374,8 @@
                                 </div>
                                 <div id="photo-preview-container" class="preview-container">
                                     <img id="photo-preview-img" src="" alt="Incident Preview">
-                                    <button type="button" id="btn-remove-photo" class="btn-remove-photo" aria-label="Remove photo">✕</button>
+                                    <button type="button" id="btn-remove-photo" class="btn-remove-photo"
+                                        aria-label="Remove photo">✕</button>
                                 </div>
                             </div>
                         </div>
@@ -212,9 +385,11 @@
                             <div class="location-group-header">
                                 <span>Location Details</span>
                                 <button type="button" id="btn-get-location" class="btn btn-outline btn-sm">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
                                         <circle cx="12" cy="12" r="10"></circle>
-                                        <polygon points="12 2 15 8 21 9 17 14 18 20 12 17 6 20 7 14 3 9 9 8 12 2"></polygon>
+                                        <polygon points="12 2 15 8 21 9 17 14 18 20 12 17 6 20 7 14 3 9 9 8 12 2">
+                                        </polygon>
                                     </svg>
                                     Get My Location
                                 </button>
@@ -222,24 +397,28 @@
 
                             <div class="form-group" style="margin-bottom: 10px;">
                                 <label class="form-label" for="report-location">Location Name / Area *</label>
-                                <input type="text" id="report-location" class="form-input" style="padding-left: 14px;" placeholder="e.g. Ring Road, Ibadan" required>
+                                <input type="text" id="report-location" class="form-input" style="padding-left: 14px;"
+                                    placeholder="e.g. Ring Road, Ibadan" required>
                             </div>
 
                             <div class="coords-row">
                                 <div>
                                     <label class="form-label" for="report-lat">Latitude</label>
-                                    <input type="text" id="report-lat" class="form-input" style="padding-left: 14px;" placeholder="7.3775">
+                                    <input type="text" id="report-lat" class="form-input" style="padding-left: 14px;"
+                                        placeholder="7.3775">
                                 </div>
                                 <div>
                                     <label class="form-label" for="report-lng">Longitude</label>
-                                    <input type="text" id="report-lng" class="form-input" style="padding-left: 14px;" placeholder="3.9470">
+                                    <input type="text" id="report-lng" class="form-input" style="padding-left: 14px;"
+                                        placeholder="3.9470">
                                 </div>
                             </div>
                         </div>
 
                         <!-- Submit button -->
                         <button type="submit" id="btn-submit-report" class="btn btn-primary">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
                                 <line x1="22" y1="2" x2="11" y2="13"></line>
                                 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                             </svg>
@@ -277,20 +456,21 @@
                  ============================================================ -->
             <div id="view-profile" class="view">
                 <div class="profile-card">
-                    <div id="profile-avatar" class="profile-avatar">AO</div>
-                    <h3 id="profile-name" class="profile-name">Adebayo Olawale</h3>
-                    <p id="profile-email" class="profile-email">adebayo@citizenreport.ng</p>
+                    <div id="profile-avatar" class="profile-avatar">CR</div>
+                    <h3 id="profile-name" class="profile-name">Citizen User</h3>
+                    <p id="profile-email" class="profile-email">citizen@incidentreport.org</p>
                     <span class="profile-role-badge">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3">
                             <polyline points="20 6 9 17 4 12"></polyline>
                         </svg>
-                        Verified Citizen Reporter
+                        Citizen Reporter
                     </span>
                 </div>
 
                 <div class="profile-stats-row">
                     <div class="profile-stat-box">
-                        <h4 id="profile-total-reports">2</h4>
+                        <h4 id="profile-total-reports">0</h4>
                         <p>Incidents Reported</p>
                     </div>
                     <div class="profile-stat-box">
@@ -306,15 +486,15 @@
                     </div>
                     <div class="info-row">
                         <span class="info-label">Assessment</span>
-                        <span class="info-value">BinCom Mobile Track</span>
+                        <span class="info-value">SivvAIMobile Track</span>
                     </div>
                     <div class="info-row">
                         <span class="info-label">Version</span>
-                        <span class="info-value">v1.0.0 (UI Phase)</span>
+                        <span class="info-value">v1.0.0</span>
                     </div>
                     <div class="info-row">
-                        <span class="info-label">Storage Mode</span>
-                        <span class="info-value">Local Offline Mock</span>
+                        <span class="info-label">Backend</span>
+                        <span class="info-value">WordPress REST API</span>
                     </div>
                 </div>
 
@@ -331,10 +511,11 @@
             <!-- ============================================================
                  VIEW: INCIDENT DETAILS SCREEN
                  ============================================================ -->
-            <div id="view-details" class="view" style="padding: 0; padding-bottom: calc(var(--bottom-nav-height) + 20px);">
+            <div id="view-details" class="view">
                 <div class="details-nav">
                     <button type="button" id="btn-back-details" class="btn-back">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
                             <line x1="19" y1="12" x2="5" y2="12"></line>
                             <polyline points="12 19 5 12 12 5"></polyline>
                         </svg>
@@ -395,7 +576,7 @@
             <!-- ============================================================
                  BOTTOM NAVIGATION BAR
                  ============================================================ -->
-            <nav class="bottom-nav safe-bottom">
+            <nav class="bottom-nav">
                 <button type="button" class="nav-item active" data-view="home">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -441,12 +622,14 @@
             <div class="modal-content safe-bottom">
                 <div class="modal-header">
                     <span class="modal-title">Live Incident Alerts</span>
-                    <button type="button" id="btn-close-modal" class="icon-btn" style="width: 32px; height: 32px;" aria-label="Close modal">✕</button>
+                    <button type="button" id="btn-close-modal" class="icon-btn" style="width: 32px; height: 32px;"
+                        aria-label="Close modal">✕</button>
                 </div>
                 <div id="notification-list" class="notification-list">
                     <!-- Populated dynamically via app.js -->
                 </div>
-                <button type="button" id="btn-clear-notifications" class="btn btn-secondary btn-sm" style="width: 100%;">
+                <button type="button" id="btn-clear-notifications" class="btn btn-secondary btn-sm"
+                    style="width: 100%;">
                     Mark all as read
                 </button>
             </div>
@@ -454,8 +637,16 @@
 
     </div>
 
-    <!-- Cordova and App Scripts -->
+    <!-- Cordova and Modular App Scripts -->
     <script src="cordova.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/modules/state.js"></script>
+    <script src="js/modules/utils.js"></script>
+    <script src="js/modules/auth.js"></script>
+    <script src="js/modules/api.js"></script>
+    <script src="js/modules/incidents.js"></script>
+    <script src="js/modules/ui.js"></script>
     <script src="js/app.js"></script>
 </body>
+
 </html>

@@ -1,0 +1,271 @@
+/* ==========================================================================
+   Home Screen & Incidents Feed
+   ========================================================================== */
+
+.home-banner {
+  background: linear-gradient(135deg, #0D7A57 0%, #15803D 100%);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  color: white;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 6px 16px rgba(13, 122, 87, 0.2);
+}
+
+.banner-text h2 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.banner-text p {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.banner-btn {
+  background: white;
+  color: var(--primary);
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  border: none;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+}
+
+.banner-btn:active {
+  background: #F1F5F9;
+}
+
+/* Category Filters */
+.filters-section {
+  margin-bottom: 18px;
+}
+
+.filters-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--secondary);
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filters-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.filters-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-chip {
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.filter-chip.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(13, 122, 87, 0.25);
+}
+
+.filter-chip:active {
+  transform: scale(0.96);
+}
+
+/* Incidents Feed */
+.feed-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.feed-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.feed-count {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.incidents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Incident Card */
+.incident-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  padding: 14px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.incident-card:active {
+  transform: scale(0.99);
+  background-color: #FAFAFA;
+}
+
+.card-thumb {
+  width: 86px;
+  height: 86px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  background-color: var(--bg-subtle);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+/* Category Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+.badge-accident {
+  background: var(--accent-warning-light);
+  color: var(--accent-warning);
+}
+
+.badge-fighting {
+  background: var(--accent-fight-light);
+  color: var(--accent-fight);
+}
+
+.badge-rioting {
+  background: var(--accent-alert-light);
+  color: var(--accent-alert);
+}
+
+.badge-fire {
+  background: var(--accent-fire-light);
+  color: var(--accent-fire);
+}
+
+.badge-other {
+  background: var(--accent-info-light);
+  color: var(--accent-info);
+}
+
+.badge-status-pending {
+  background: #FEF3C7;
+  color: #B45309;
+}
+
+.badge-status-verified {
+  background: #DCFCE7;
+  color: #15803D;
+}
+
+.card-time {
+  font-size: 11px;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--secondary);
+  line-height: 1.3;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: auto;
+}
+
+.card-location svg {
+  width: 14px;
+  height: 14px;
+  color: var(--primary);
+  flex-shrink: 0;
+}

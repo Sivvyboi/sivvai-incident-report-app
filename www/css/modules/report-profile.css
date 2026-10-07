@@ -1,0 +1,312 @@
+/* ==========================================================================
+   Report Incident, My Reports, and Profile Screens
+   ========================================================================== */
+
+.report-header-text {
+  margin-bottom: 18px;
+}
+
+.report-header-text h2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--secondary);
+  margin-bottom: 4px;
+}
+
+.report-header-text p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.report-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Photo selector */
+.photo-upload-box {
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  text-align: center;
+  cursor: pointer;
+  background-color: var(--bg-subtle);
+  transition: all var(--transition-fast);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 110px;
+}
+
+.photo-upload-box:active {
+  background-color: var(--bg-active);
+  border-color: var(--primary);
+}
+
+.photo-upload-box svg {
+  width: 32px;
+  height: 32px;
+  color: var(--primary);
+  margin-bottom: 6px;
+}
+
+.photo-upload-box span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--secondary);
+}
+
+.photo-upload-box small {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.preview-container {
+  display: none;
+  position: relative;
+  width: 100%;
+  height: 180px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-top: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.preview-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.btn-remove-photo {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(15, 23, 42, 0.75);
+  color: white;
+  border: none;
+  border-radius: var(--radius-full);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Location group */
+.location-group-box {
+  background: var(--bg-subtle);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  padding: 14px;
+  margin-bottom: 18px;
+}
+
+.location-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.location-group-header span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.coords-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* My Reports Screen */
+.my-reports-stat-card {
+  background: var(--primary-light);
+  border: 1px solid rgba(13, 122, 87, 0.2);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.my-reports-stat-info h3 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--primary-dark);
+}
+
+.my-reports-stat-info p {
+  font-size: 13px;
+  color: var(--primary-dark);
+  font-weight: 500;
+}
+
+.my-report-item {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  padding: 14px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.my-report-item:active {
+  transform: scale(0.99);
+}
+
+.my-report-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.my-report-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.my-report-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Profile Screen */
+.profile-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  background: var(--primary-gradient);
+  color: white;
+  font-size: 28px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+  box-shadow: 0 8px 16px rgba(13, 122, 87, 0.2);
+}
+
+.profile-name {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--secondary);
+  margin-bottom: 4px;
+}
+
+.profile-email {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.profile-role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.profile-stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.profile-stat-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  text-align: center;
+}
+
+.profile-stat-box h4 {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--secondary);
+  margin-bottom: 2px;
+}
+
+.profile-stat-box p {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.info-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 13px;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  color: var(--text-muted);
+}
+
+.info-value {
+  font-weight: 600;
+  color: var(--secondary);
+}
+
+.btn-logout {
+  background-color: var(--accent-alert-light);
+  color: var(--accent-alert);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  width: 100%;
+}
+
+.btn-logout:active {
+  background-color: #FCA5A5;
+}

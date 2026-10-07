@@ -5,6 +5,11 @@
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
   "main": "index.js",
   "scripts": {
+    "build:config": "powershell -ExecutionPolicy Bypass -File scripts/build-config.ps1",
+    "prebuild": "powershell -ExecutionPolicy Bypass -File scripts/build-config.ps1",
+    "prerun": "powershell -ExecutionPolicy Bypass -File scripts/build-config.ps1",
+    "build": "cordova build android",
+    "run:android": "cordova run android",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -13,11 +18,19 @@
   "author": "Apache Cordova Team",
   "license": "Apache-2.0",
   "devDependencies": {
-    "cordova-android": "^15.1.0"
+    "cordova-android": "^15.1.0",
+    "cordova-plugin-googleplus": "^8.5.2"
   },
   "cordova": {
     "platforms": [
       "android"
-    ]
+    ],
+    "plugins": {
+      "cordova-plugin-googleplus": {
+        "REVERSED_CLIENT_ID": "com.googleusercontent.apps.YOUR_PREFIX",
+        "WEB_CLIENT_ID": "YOUR_WEB_ID.apps.googleusercontent.com",
+        "PLAY_SERVICES_VERSION": "15.0.1"
+      }
+    }
   }
 }
